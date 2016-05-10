@@ -1,0 +1,37 @@
+web:
+  image: "nginx:1.10-alpine"
+  #build: buildfiles/nginx/
+  ports:
+    - "{{ HTTP_PORT }}:80"
+  links:
+    - mariadb:mariadb
+    - php:php
+    - redis:redis
+  volumes:
+    - /app/source:/var/www/html
+
+php:
+  image: "php:5.6-fpm"
+  #build: buildfiles/php/
+  volumes:
+    - /app/source:/var/www/html
+
+mariadb:
+  image: "mariadb:latest"
+  #build: buildfiles/mariadb/
+  ports:
+    - "{{ MYSQL_PORT }}:3306"
+  environment:
+    MYSQL_ROOT_PASSWORD: "{{ MYSQL_ROOT_PASSWORD }}"
+    MYSQL_DATABASE:      "{{ MYSQL_DATABASE }}"
+    MYSQL_USER:          "{{ MYSQL_USER }}"
+    MYSQL_PASSWORD:      "{{ MYSQL_PASSWORD }}"
+  volumes:
+    - /app/setup/buildfiles/mariadb/data:/var/lib/mysql
+    - /app/setup/buildfiles/mariadb/conf:/etc/mysql/conf.d
+
+redis:
+  image: "redis:3.0.7-alpine"
+  #build: buildfiles/redis/
+  ports:
+    - "{{ REDIS_PORT }}:6379"

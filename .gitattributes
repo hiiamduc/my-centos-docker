@@ -1,0 +1,4 @@
+images/php.tar.gz filter=lfs diff=lfs merge=lfs -text
+images/mariadb.tar.gz filter=lfs diff=lfs merge=lfs -text
+images/nginx.tar.gz filter=lfs diff=lfs merge=lfs -text
+images/redis.tar.gz filter=lfs diff=lfs merge=lfs -text
